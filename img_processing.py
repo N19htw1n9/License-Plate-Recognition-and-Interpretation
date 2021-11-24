@@ -53,4 +53,4 @@ def plate_to_text(img):
     '''
 
 # Temporarily running function
-plate_recognition("test_pics/il2.jpeg")
+plate_recognition("test_pics/il7.jpg")
