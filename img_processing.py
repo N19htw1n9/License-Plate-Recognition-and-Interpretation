@@ -15,18 +15,18 @@ import cv2
 def plate_recognition(path):
     img = cv2.imread(path)
     grayed = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    grayed = cv2.bilateralFilter(grayed, 11, 17, 17)
+    grayed = cv2.bilateralFilter(grayed, 11, 17, 17) # Might need to adjust this
 
     edgedImg = cv2.Canny(grayed, 100, 200)
     edges, new = cv2.findContours(edgedImg.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-    edges = sorted(edges, key=cv2.contourArea, reverse=True) #[:30]
+    edges = sorted(edges, key=cv2.contourArea, reverse=True) #[:30], might need to adjust this
 
     plateContour = None
     plate = None
 
     for c in edges:
         perim = cv2.arcLength(c, True)
-        approx = cv2.approxPolyDP(c, 0.018 * perim, True) # or 0.02
+        approx = cv2.approxPolyDP(c, 0.018 * perim, True) # or 0.02, might need to adjust this
         
         if len(approx) == 4:
             plateContour = approx
@@ -40,6 +40,8 @@ def plate_recognition(path):
     cv2.waitKey(0)
 
 def plate_to_text(img):
+    # Maybe use the Medium website for this instead, it's only two lines of code from there
+    
     '''
     text = pytesseract.image_to_string(blackAndWhiteImage, config='--psm 6')
     image = cv2.rectangle(image, (x,y), (x+w, y+h), (255, 0, 0) 3)
@@ -51,4 +53,4 @@ def plate_to_text(img):
     '''
 
 # Temporarily running function
-plate_recognition("test_pics/ot6.jpg")
+plate_recognition("test_pics/il2.jpeg")
