@@ -50,17 +50,24 @@ def plate_recognition(path):
 
 def plate_to_text(img):
     # Maybe use the Medium website for this instead, it's only two lines of code from there
-    # text = pytesseract.image_to_string(img, config='--psm 11')
+    text = pytesseract.image_to_string(img, config='--psm 11')
+    return text
     
+    '''
+    text = pytesseract.image_to_string(img, lang ='eng', config ='--oem 3 --psm 7 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+    return text
+    '''
+
+    '''
     text = pytesseract.image_to_string(img, config='--psm 6')
     image = cv2.rectangle(image, (x,y), (x+w, y+h), (255, 0, 0))
     image = cv2.putText(image, text.upper(), (x+50, y-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
-
+    
     print("License Plate: ", text.upper())
     cv2.imshow("License Plate Detection", image)
     cv2.waitKey(0)
-
+    '''
 
 # Temporarily running function
-img = plate_recognition("test_pics/il2.jpeg")
+img = plate_recognition("test_pics/il7.jpg")
 print(plate_to_text(img))
