@@ -21,7 +21,7 @@ from selenium.webdriver.chrome.options import Options
 
 def return_info(plate): 
     # For some reason, the geckodriver for firefox is being buggy so let's stick with Chrome for now
-    PATH = executable_path='C:\\Users\\sarim\\Desktop\\automation_script\\CS415_Project\\chromedriver.exe'
+    PATH = executable_path='C:\\Users\\sarim\\Desktop\\CS415_Project\\chromedriver.exe'
     driver = webdriver.Chrome(PATH)
 
     driver.get("https://www.faxvin.com/license-plate-lookup/")
