@@ -39,19 +39,25 @@ def plate_recognition(path):
         if len(approx) == 4:
             plateContour = approx
             x, y, w, h = cv2.boundingRect(c)
-            plate = grayed[y:y+h, x:x+w]
+            # plate = grayed[y:y+h, x:x+w]
+            plate = img[y+40:y+h-30, x+20:x+w-20]
             break
     
     # Temporarily testing output
     threshold, outImg = cv2.threshold(plate, 80, 255, cv2.THRESH_BINARY)
     cv2.imshow("License Plate Detection", outImg)
     cv2.waitKey(0)
-    return img
+    return outImg
 
 def plate_to_text(img):
     # Maybe use the Medium website for this instead, it's only two lines of code from there
     text = pytesseract.image_to_string(img, config='--psm 11')
-    return text
+    
+    # Typical Illinois plates have a length of 7-8 characters, and usually have a mix of Capital Letters and Numbers
+    lines = text.splitlines()
+    for line in lines:
+        if len(line) == 7 or len(line) == 8:
+            return line
     
     '''
     text = pytesseract.image_to_string(img, lang ='eng', config ='--oem 3 --psm 7 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
@@ -69,5 +75,5 @@ def plate_to_text(img):
     '''
 
 # Temporarily running function
-img = plate_recognition("test_pics/il7.jpg")
+img = plate_recognition("test_pics/il2.jpeg")
 print(plate_to_text(img))
