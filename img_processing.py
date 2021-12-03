@@ -75,5 +75,5 @@ def plate_to_text(img):
     '''
 
 # Temporarily running function
-img = plate_recognition("test_pics/il2.jpeg")
+img = plate_recognition("test_pics/il10.jpg")
 print(plate_to_text(img))
