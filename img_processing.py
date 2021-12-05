@@ -39,35 +39,27 @@ def plate_recognition(path):
         if len(approx) == 4:
             plateContour = approx
             x, y, w, h = cv2.boundingRect(c)
-            plate = grayed[y:y+h, x:x+w]
+            # plate = img[y:y+h, x:x+w] # Semipasses with pass2.jpg, semipass5.jpg. Passes with semipass1.jpg. Fails with semipass2.jpeg, semipass4.jpg
+            plate = img[y+30:y+h-20, x:x+w] # Passes with pass1.jpg, pass2.jpg. Semipasses with semipass1.jpg, semipass2.jpeg, semipass3.jpeg, semipass4.jpg, semipass5.jpg
+            # plate = img[y+40:y+h-30, x+20:x+w-20] # Passes with pass2.jpg, semipass1.jpg, semipass2.jpeg. Almost fails with pass1.jpg. Fails with semipass2.jpeg, semipass4.jpg. Semipasses with semipass5.jpg
             break
     
     # Temporarily testing output
     threshold, outImg = cv2.threshold(plate, 80, 255, cv2.THRESH_BINARY)
     cv2.imshow("License Plate Detection", outImg)
     cv2.waitKey(0)
-    return img
+    return outImg
 
 def plate_to_text(img):
     # Maybe use the Medium website for this instead, it's only two lines of code from there
     text = pytesseract.image_to_string(img, config='--psm 11')
-    return text
     
-    '''
-    text = pytesseract.image_to_string(img, lang ='eng', config ='--oem 3 --psm 7 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    return text
-    '''
-
-    '''
-    text = pytesseract.image_to_string(img, config='--psm 6')
-    image = cv2.rectangle(image, (x,y), (x+w, y+h), (255, 0, 0))
-    image = cv2.putText(image, text.upper(), (x+50, y-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
-    
-    print("License Plate: ", text.upper())
-    cv2.imshow("License Plate Detection", image)
-    cv2.waitKey(0)
-    '''
+    # Typical Illinois plates have a length of 7-8 characters, and usually have a mix of Capital Letters and Numbers
+    lines = text.splitlines()
+    for line in lines:
+        if len(line) >= 7:
+            return line
 
 # Temporarily running function
-img = plate_recognition("test_pics/il7.jpg")
+img = plate_recognition("test_pics/img.jpg")
 print(plate_to_text(img))
