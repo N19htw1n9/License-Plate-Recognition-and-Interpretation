@@ -44,12 +44,10 @@ def return_info(licensePlate):
     year = driver.find_element_by_xpath("/html/body/div/div/div[2]/div/div[2]/table/tbody/tr[1]/td[4]/b").text
 
     # What's happening right now is that the driver is quitting right away, so we need to add like a wait or sleep function to keep that from happening quickly
-    # time.sleep(1000)
-    while (plate == None or VIN == None or make == None or model == None or year == None):
-        if (plate != None and VIN != None and make != None and model != None and year != None):
-            driver.quit()
-            break
-        else:
-            time.sleep(1000)
+    while (plate == None or VIN == None or make == None or model == None or year == None): # test code w/o this loop because you can probably remove it
+        time.sleep(1000)
+    
+    if (plate != None and VIN != None and make != None and model != None and year != None):
+        driver.quit()
 
     return [plate, VIN, make, model, year]
