@@ -2,5 +2,10 @@
 
 from automation_script import return_info
 
-return_info("AE29185")
+plate, VIN, make, model, year = return_info("AE2 9185")
+print(plate)
+print(VIN)
+print(make)
+print(model)
+print(year)
 # return_info(plate_to_text(plate_recognition(path)))
