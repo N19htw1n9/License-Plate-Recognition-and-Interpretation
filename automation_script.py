@@ -44,6 +44,7 @@ def return_info(licensePlate):
         year = driver.find_element_by_xpath("/html/body/div/div/div[2]/div/div[2]/table/tbody/tr[1]/td[4]/b").text
     
     finally:
-        driver.quit()
+        if(plate != None and VIN != None and make != None and model != None and year != None):
+            driver.quit()
 
     return plate, VIN, make, model, year
