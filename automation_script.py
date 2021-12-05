@@ -19,7 +19,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.chrome.options import Options
 
-def return_info(plate): 
+def return_info(licensePlate):
     # For some reason, the geckodriver for firefox is being buggy so let's stick with Chrome for now
     PATH = executable_path='C:\\Users\\sarim\\Desktop\\automation_script\\CS415_Project\\chromedriver.exe'
     driver = webdriver.Chrome(PATH)
@@ -29,20 +29,22 @@ def return_info(plate):
     driver.set_window_size(550, 691)
     driver.find_element(By.CSS_SELECTOR, "label").click()
     driver.find_element(By.NAME, "plate").click()
-    driver.find_element(By.NAME, "plate").send_keys(plate)
+    driver.find_element(By.NAME, "plate").send_keys(licensePlate)
     driver.find_element(By.NAME, "state").click()
     dropdown = driver.find_element(By.NAME, "state")
     dropdown.find_element(By.XPATH, "//option[. = 'Illinois (IL)']").click()
     driver.find_element(By.CSS_SELECTOR, "option:nth-child(15)").click()
     driver.find_element(By.CSS_SELECTOR, "button").click()
 
-    # Plate =
-    # VIN =
-    # Year =
-    # Make =
-    # Model =
+    plate = licensePlate
     # Before the driver quits, we need to grab information (VIN #, Year, Make, Model) and return it, we should collect the tags for those
+    VIN = driver.find_element_by_xpath("/html/body/div/div/div[2]/div/div[2]/table/tbody/tr[1]/td[1]/b").text
+    make = driver.find_element_by_xpath("/html/body/div/div/div[2]/div/div[2]/table/tbody/tr[1]/td[2]/b").text
+    model = driver.find_element_by_xpath("/html/body/div/div/div[2]/div/div[2]/table/tbody/tr[1]/td[3]/b").text
+    year = driver.find_element_by_xpath("/html/body/div/div/div[2]/div/div[2]/table/tbody/tr[1]/td[4]/b").text
 
     # What's happening right now is that the driver is quitting right away, so we need to add like a wait or sleep function to keep that from happening quickly
     time.sleep(1000)
     driver.quit()
+
+    return [plate, VIN, make, model, year]
