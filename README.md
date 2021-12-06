@@ -1,63 +1,131 @@
 
 # License Plate Recognition + Interpretation
 
-This project is designed to be a license plate recognition and interpretation program. The program takes an input image and detects a license plate from the image (using the OpenCV library). The plate is then cropped and sent to a function that is responsible for recognizing the text written on the plate (using the Tesseract OCR library). Then the text is passed to an automation script, which navigates to a car recognition database [FAXVIN](https://www.faxvin.com/license-plate-lookup), whereupon the script will search the license plate and retrieve the car's information. Program will then output the license plate, VIN, Year, Make, and Model of the queried car into a CSV file.
-  
-_(Note: This application was designed using Java 8, Apache Maven, Java Sockets, JavaFX 12, SceneBuilder, and JUnit 4)_
+**By Sarim Qureshi (squres25), Daniel Levert (dlever2), Zak Jamal (zmjamal2), Mohammed Akif (makif3), Tosan Egbesemirone (oegbes2)**
 
-## Prerequisites
+This project is designed to be a license plate recognition and interpretation program. The program takes an input image and detects a license plate from the image (using cropping, filtering, and edge detection techniques with the OpenCV library). The plate is then cropped and sent to a function that is responsible for recognizing the text written on the plate (using text recognition techniques with the Tesseract OCR library). Then the text is passed to an automation script (with the Selenium WebDriver library), which navigates to a car recognition database [FAXVIN](https://www.faxvin.com/license-plate-lookup), whereupon the script will search the license plate and retrieve the car's information. The program will then output the license plate, VIN, Year, Make, and Model of the queried car onto the terminal.
 
+## Requirements
+This program was designed using Python 3 and it's libraries:
+ - OpenCV
+ - Tesseract OCR
+ - Selenium WebDriver
+ - unittest
+ - sys
+ - os
+ - time
 
-## Testing (_with Maven_)
+The program also has a specific browser specification:
 
-  
+ - Google Chrome, Version 97 or earlier
 
-Extensive unit test cases have been written using JUnit 4 to ensure the game elements are working in order.
+## Installation and Configuration (for Mac)
 
-  
-
-First, `cd` into the project directory, then:
-
-  
-
+ **1. Download tesseract**
+```
+brew install tesseract
+```
+	
+ **2. Download pytesseract**
+```
+pip install pytesseract
+```
+OR
+```
+pip3 install pytesseract
+```
+	
+ **3. Configure Tesseract path**
+Comment out line 15 of img_processing.py
+```
+# pytesseract.pytesseract.tesseract_cmd = r"[PATH]"
+```
+Since Mac does not require a .exe installation for tesseract, we do not need to give a path variable
+	
+ **4. Download OpenCV**
+```
+pip install opencv-python
+```
+OR
+```
+pip3 install opencv-python
 ```
 
-mvn test
+ **5. Download Chrome WebDriver**
+Download the driver version corresponding to the version of Chrome you have as well as your operating system from [https://chromedriver.chromium.org/downloads](https://www.faxvin.com/license-plate-lookup).
 
+ **6. Configure WebDriver path**
+Extract the `chromedriver` file into `/usr/local/bin/`. Then comment out line 22 of `automation_script.py`
+```
+# PATH = executable_path='chromedriver.exe'
+```
+and uncomment line 23
+```
+PATH = executable_path='/usr/local/bin/chromedriver'
 ```
 
-  
+## Installation and Configuration (for Windows)
 
-## Build/Compile (_with Maven_)
-
-  
-
-First, `cd` into the project directory, then:
-
-  
-
+ **1. Download tesseract**
+```
+pip install tesseract
+```
+OR
+```
+pip3 install tesseract
 ```
 
-mvn package
+ **2. Download pytesseract**
+```
+pip install pytesseract
+```
+OR
+```
+pip3 install pytesseract
+```
+	
+ **3. Configure Tesseract path**
+Navigate to this [installer page](https://github.com/UB-Mannheim/tesseract/wiki), download the setup wizard pertaining through your system, and run the executable. Copy the path shown during this step of the setup:
+
+![Path](https://i.ibb.co/2WjmDWN/install.png)
+
+This is where your `tesseract.exe` file will be located. Upon installation, navigate to the copied path, ensure that `tesseract.exe` is there, copy it's path, and place it onto the string placeholder of line 15 in `img_processing.py`
 
 ```
-
-  
-
-_This makes a folder named `target` in the project root, containing the `.jar` and `.class` files._
-
-  
-
-## Run (_with Maven_)
-
-  
-
-Ensure that you are running [baccarat-server](https://github.com/N19htw1n9/Baccarat-Server). Once you have built/compiled, execute this command within the same directory:
-
-  
-
+pytesseract.pytesseract.tesseract_cmd = r"[PATH]"
+```
+	
+ **4. Download OpenCV**
+```
+pip install opencv-python
+```
+OR
+```
+pip3 install opencv-python
 ```
 
-mvn exec:java
+ **5. Download Chrome WebDriver**
+Download the driver version corresponding to the version of Chrome you have as well as your operating system from [https://chromedriver.chromium.org/downloads](https://www.faxvin.com/license-plate-lookup).
 
+ **6. Configure WebDriver path**
+Extract the `chromedriver.exe` file into your project directory. Then uncomment line 22 of `automation_script.py`
 ```
+# PATH = executable_path='chromedriver.exe'
+```
+*Note: You may need to give the absolute path for `chromedriver.exe`*
+
+and comment out line 23
+```
+PATH = executable_path='/usr/local/bin/chromedriver'
+```
+
+## Constraints
+
+-   Input file types are limited to .jpeg and .jpg extensions
+-   License plate must be visible and of a rectangular or almost rectangular shape in the image
+-   License plate must be from Illinois
+-   The text of the license plate has to be of length greater than or equal to 7
+-   Input image must not be too reflective or too bright
+
+## Fail Cases
+`fail1.jpg` When this image is being processed, the grill is captured instead of the plate. This is likely because the program interprets the grill as an almost rectangular shape.
