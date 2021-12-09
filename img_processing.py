@@ -5,7 +5,6 @@ Links:
 https://www.geeksforgeeks.org/license-plate-recognition-with-opencv-and-tesseract-ocr/
 https://medium.com/programming-fever/license-plate-recognition-using-opencv-python-7611f85cdd6c - main reference
 https://www.pyimagesearch.com/2020/09/21/opencv-automatic-license-number-plate-recognition-anpr-with-python/
-https://youtu.be/0-4p_QgrdbE
 '''
 
 import cv2
@@ -69,7 +68,7 @@ def plate_recognition(path):
             break
     
     threshold, outImg = cv2.threshold(plate, 80, 255, cv2.THRESH_BINARY)
-    cv2.imshow("License Plate Detection", outImg)
+    # cv2.imshow("License Plate", outImg)
     cv2.waitKey(0)
     return outImg
 
