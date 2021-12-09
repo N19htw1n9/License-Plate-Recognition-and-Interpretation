@@ -10,14 +10,28 @@ https://youtu.be/0-4p_QgrdbE
 
 import cv2
 import pytesseract
+from sys import platform
+import os
 
 # Place the location of the downlaoded pytesseract executable here
 pytesseract.pytesseract.tesseract_cmd = r"C:\Users\sarim\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
 
 def plate_recognition(path):
-
     # Applying filters and canny edge detection to the image to make it easily readable by using OpenCV
-    img = cv2.imread(path)
+    
+    img = None
+    try:
+        img = cv2.imread(path)
+    except:
+        if platform == "win32" or platform == "win64":
+            os.system('cls')
+            print("Error: File not found")
+            quit()
+        else:
+            os.system('clear')
+            print("Error: File not found")
+            quit()
+    
     grayed = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     grayed = cv2.bilateralFilter(grayed, 11, 17, 17)
     edgedImg = cv2.Canny(grayed, 100, 200)
@@ -39,9 +53,19 @@ def plate_recognition(path):
         if len(approx) == 4:
             plateContour = approx
             x, y, w, h = cv2.boundingRect(c)
-            # plate = img[y:y+h, x:x+w] # Semipasses with pass2.jpg, semipass5.jpg. Passes with semipass1.jpg. Fails with semipass2.jpeg, semipass4.jpg
-            plate = img[y+30:y+h-20, x:x+w] # Passes with pass1.jpg, pass2.jpg. Semipasses with semipass1.jpg, semipass2.jpeg, semipass3.jpeg, semipass4.jpg, semipass5.jpg
-            # plate = img[y+40:y+h-30, x+20:x+w-20] # Passes with pass2.jpg, semipass1.jpg, semipass2.jpeg. Almost fails with pass1.jpg. Fails with semipass2.jpeg, semipass4.jpg. Semipasses with semipass5.jpg
+            try:
+                # plate = img[y:y+h, x:x+w]
+                plate = img[y+30:y+h-20, x:x+w]
+                # plate = img[y+40:y+h-30, x+20:x+w-20]
+            except:
+                if platform == "win32" or platform == "win64":
+                    os.system('cls')
+                    print("Error: Window size constraint does not allow for this image to be processed")
+                    quit()
+                else:
+                    os.system('clear')
+                    print("Error: Window size constraint does not allow for this image to be processed")
+                    quit()
             break
     
     threshold, outImg = cv2.threshold(plate, 80, 255, cv2.THRESH_BINARY)
@@ -57,3 +81,6 @@ def plate_to_text(img):
     for line in lines:
         if len(line) >= 7:
             return line
+    
+    print("Error: Unable to extract license plate")
+    quit()

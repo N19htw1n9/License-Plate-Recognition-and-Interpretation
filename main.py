@@ -17,12 +17,10 @@ if platform == "win32" or platform == "win64":
 else:
     os.system('clear')
 
-# os.system('cls')  # For Windows
-# os.system('clear')  # For Linux/OS X
-
 print("\n\n--- OUTPUT ---\n")
 print("License Plate:", plate)
 print("VIN:", VIN)
 print("Year:", year)
 print("Make:", make)
 print("Model:", model)
+quit()
