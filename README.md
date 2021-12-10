@@ -60,7 +60,7 @@ OR
 ```
 
  **5. Download Chrome WebDriver**
-Download the driver version corresponding to the version of Chrome you have as well as your operating system from [https://chromedriver.chromium.org/downloads](https://www.faxvin.com/license-plate-lookup).
+Download the driver version corresponding to the version of Chrome you have as well as your operating system from [https://chromedriver.chromium.org/downloads](https://chromedriver.chromium.org/downloads).
 
  **6. Configure WebDriver path**
 Extract the `chromedriver` file into `/usr/local/bin/`. Then comment out line 23 of `automation_script.py` and uncomment line 25
@@ -112,7 +112,7 @@ OR
 ```
 
  **5. Download Chrome WebDriver**
-Download the driver version corresponding to the version of Chrome you have as well as your operating system from [https://chromedriver.chromium.org/downloads](https://www.faxvin.com/license-plate-lookup).
+Download the driver version corresponding to the version of Chrome you have as well as your operating system from [https://chromedriver.chromium.org/downloads](https://chromedriver.chromium.org/downloads).
 
  **6. Configure WebDriver path**
 Extract the `chromedriver.exe` file into your project directory. Then uncomment line 23 of `automation_script.py` and comment out line 25
